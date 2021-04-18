@@ -1,4 +1,5 @@
-const TXN_AMOUNT_REGEX = /\d+\.?\d*/;
+const TXN_AMOUNT_INITIAL_REGEX = /(₹|rs|inr)[\s\d\.]+/;
+const TXN_AMOUNT_FINAL_REGEX = /\d+\.?\d*/;
 const TXN_WITH_REGEX = ' ';
 const DELIM = '|';
 
@@ -29,7 +30,7 @@ function scrapeData_(msg, metaDataRow) {
   
   const txnFrom = metaDataRow[METADATA_COLUMNS.Name].trim();
   const txnWith = getTxnWith_(msgText, metaDataRow[METADATA_COLUMNS.TxnWithRegex]);
-  const txnAmount = getTxnAmount_(msgText, metaDataRow[METADATA_COLUMNS.TxnAmtRegex]);
+  const txnAmount = getTxnAmount_(msgText, TXN_AMOUNT_INITIAL_REGEX);
   if (txnAmount && isDebitTxn_(msgText)) return [msgDate, msgId, txnFrom, txnWith, txnAmount, ];
   else if (txnAmount && isCreditTxn_(msgText)) return [msgDate, msgId, txnFrom, txnWith, , txnAmount]; 
   else return null;
@@ -48,11 +49,11 @@ function getTxnWith_(msgText, regExpStr) {
   return toTitleCase_(txnWithText);
 }
 
-function getTxnAmount_(msgText, regExpStr) {
-  let txnAmountText = getMatchedStr_(msgText, regExpStr);
-  console.log('Found txn amount text :: "%s" after using regex :: "%s"', txnAmountText, regExpStr);
-  if (regExpStr !== TXN_AMOUNT_REGEX)
-    txnAmountText = getTxnAmount_(txnAmountText, TXN_AMOUNT_REGEX);
+function getTxnAmount_(msgText, regExp) {
+  let txnAmountText = getMatchedStr_(msgText, regExp);
+  console.log('Found txn amount text :: "%s" after using regex :: "%s"', txnAmountText, regExp);
+  if (regExp !== TXN_AMOUNT_FINAL_REGEX)
+    txnAmountText = getTxnAmount_(txnAmountText, TXN_AMOUNT_FINAL_REGEX);
   
   return txnAmountText;
 }

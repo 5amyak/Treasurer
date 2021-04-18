@@ -1,7 +1,7 @@
 const EXPENSE_COLUMNS = Object.freeze(
   {'Date':0, 'MsgId':1, 'TxnFrom':2, 'TxnWith':3, 'DebitAmt':4, 'CreditAmt': 5});
 const METADATA_COLUMNS = Object.freeze(
-  {'From':0, 'Name':1, 'TxnWithRegex':2, 'TxnAmtRegex':3});
+  {'From':0, 'Name':1, 'TxnWithRegex':2});
 
 let activeSpreadsheet, templateSpreadsheet;
 function initializeGlobals_() {
