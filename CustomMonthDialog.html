@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    <style>
+      .dateInput {
+        margin: 10px;
+        padding: 15px;
+        width: 100%;
+      }
+      .actionBtn {
+        padding-top: 10px;
+        text-align: right;
+        vertical-align: bottom;
+      }
+    </style>
+  </head>
+  <body>
+    <form name="dateForm" onsubmit="customMonthDialogHandler(this)">
+      <div>
+        <input name="dateInput" class="dateInput" type="month">
+      </div>
+      <div class="actionBtn">
+        <button onclick="google.script.host.close()"> Cancel </button>
+        <button type="submit" class="action"> Ok </button>
+      </div>
+    </form>
+  </body>
+  <script>
+    // Prevent forms from submitting.
+    function preventFormSubmit() {
+      var forms = document.querySelectorAll('form');
+      for (var i = 0; i < forms.length; i++) {
+        forms[i].addEventListener('submit', function(event) {
+          event.preventDefault();
+        });
+      }
+    }
+    window.addEventListener('load', preventFormSubmit);
+
+    function customMonthDialogHandler(dateForm) {
+      if(dateForm.dateInput.value.trim() === "") {
+        document.querySelector('input[type="month"]').style.borderColor = 'red';
+        return false;
+      }
+
+      google.script.run.customMonthDialogHandler(dateForm);
+      google.script.host.close();
+      return true;
+    }
+  </script>
+</html>
