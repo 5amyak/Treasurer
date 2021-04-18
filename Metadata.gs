@@ -2,7 +2,6 @@ const METADATA_SHEET_NAME = 'Metadata';
 
 let creditKeywords = [];
 let debitKeywords = [];
-let successKeywords = [];
 
 function getMetadataSheet_() {
   let metadataSheet = activeSpreadsheet.getSheetByName(METADATA_SHEET_NAME);
@@ -16,25 +15,15 @@ function getMetadataSheet_() {
 function initializeKeywords_(metaData) {
   creditKeywords = creditKeywords.concat(getColValuesByName_('Credit Keywords', metaData));
   debitKeywords = debitKeywords.concat(getColValuesByName_('Debit Keywords', metaData));
-  successKeywords = successKeywords.concat(getColValuesByName_('Success Keywords', metaData));
-}
-
-function isValidTxn_(text) {
-  for (const successKeyword of successKeywords) {
-    if (text.indexOf(successKeyword) != -1) {
-      console.log('Found a vaild transaction for email text :: %s', text);
-      return true;
-    }
-  }
-  
-  console.warn('Found an invalid transaction');
-  return false;
 }
 
 function isDebitTxn_(text) {
   for (let debitKeyword of debitKeywords) {
-    debitKeyword = debitKeyword.toLowerCase().trim();
-    if (text.indexOf(debitKeyword) != -1) return true;
+    let debitRegex = new RegExp('\\s' + debitKeyword.toLowerCase().trim() + '\\s');
+    if (text.search(debitRegex) != -1) {
+      console.log('Found a debit keyword :: %s', debitKeyword);
+      return true;
+    }
   }
   
   return false;
@@ -42,8 +31,11 @@ function isDebitTxn_(text) {
 
 function isCreditTxn_(text) {
   for (let creditKeyword of creditKeywords) {
-    creditKeyword = creditKeyword.toLowerCase().trim();
-    if (text.indexOf(creditKeyword) != -1) return true;
+    let creditRegex = new RegExp('\\s' + creditKeyword.toLowerCase().trim() + '\\s');
+    if (text.search(creditRegex) != -1) {
+      console.log('Found a credit keyword :: %s', creditKeyword);
+      return true;
+    }
   }
   
   return false;

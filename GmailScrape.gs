@@ -8,7 +8,7 @@ function scanGmail_(fromGmail, month, year) {
   
   const searchQuery = formSearchQuery_(fromGmail, month, year);
   const mailThreads = GmailApp.search(searchQuery);
-  console.log('Found %d messages for search query :: %s', mailThreads.length, searchQuery);
+  console.log('Found %d messages for search query :: "%s"', mailThreads.length, searchQuery);
   return mailThreads;
 }
 
@@ -26,13 +26,12 @@ function scrapeData_(msg, metaDataRow) {
   const msgSubject = msg.getSubject().trim();
   const msgBody = msg.getPlainBody().trim();
   const msgText = msgSubject.concat(DELIM).concat(msgBody).toLowerCase().replace(/,/g, '').trim();
-  if (!isValidTxn_(msgText)) return null;
   
   const txnFrom = metaDataRow[METADATA_COLUMNS.Name].trim();
   const txnWith = getTxnWith_(msgText, metaDataRow[METADATA_COLUMNS.TxnWithRegex]);
   const txnAmount = getTxnAmount_(msgText, metaDataRow[METADATA_COLUMNS.TxnAmtRegex]);
   if (txnAmount && isDebitTxn_(msgText)) return [msgDate, msgId, txnFrom, txnWith, txnAmount, ];
-  else if (txnAmount && isCreditTxn_(msgText)) return [msgDate, msgId, txnFrom, txnWith, , txnAmount];
+  else if (txnAmount && isCreditTxn_(msgText)) return [msgDate, msgId, txnFrom, txnWith, , txnAmount]; 
   else return null;
 }
 
@@ -45,13 +44,13 @@ function getTxnWith_(msgText, regExpStr) {
   
   if (txnWithText === '' || txnWithText.split(' ').length > 4) 
     txnWithText = msgText.substring(0, msgText.indexOf(DELIM)).trim();
-  console.log('Found txn with text %s after using regex %s', txnWithText, regExpStr);
+  console.log('Found txn with text :: "%s" after using regex :: "%s"', txnWithText, regExpStr);
   return toTitleCase_(txnWithText);
 }
 
 function getTxnAmount_(msgText, regExpStr) {
   let txnAmountText = getMatchedStr_(msgText, regExpStr);
-  console.log('Found txn amount text %s after using regex %s', txnAmountText, regExpStr);
+  console.log('Found txn amount text :: "%s" after using regex :: "%s"', txnAmountText, regExpStr);
   if (regExpStr !== TXN_AMOUNT_REGEX)
     txnAmountText = getTxnAmount_(txnAmountText, TXN_AMOUNT_REGEX);
   

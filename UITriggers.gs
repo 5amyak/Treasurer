@@ -7,7 +7,7 @@ function onOpen(e) {
   
   // https://developers.google.com/workspace/add-ons/concepts/editor-auth-lifecycle
   if (e && e.authMode != ScriptApp.AuthMode.NONE) {
-    var menu = SpreadsheetApp.getUi().createAddonMenu();
+    var menu = SpreadsheetApp.getUi().createMenu('Treasurer');
     menu.addItem('Last Month', 'lastMonthTreasurer');
     menu.addItem('Current Month', 'curMonthTreasurer');
     menu.addItem('Custom Month', 'customMonthTreasurer');
