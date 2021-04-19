@@ -1,11 +1,4 @@
 # [Treasurer](https://docs.google.com/spreadsheets/d/1TC2Jp-IbnCO36YYWcauVKZh0NWe6fAJlcf_IiwMmphQ)
-
-## HOW TO USE
-1.	Create a copy of this [google sheet](https://docs.google.com/spreadsheets/d/1TC2Jp-IbnCO36YYWcauVKZh0NWe6fAJlcf_IiwMmphQ) in your drive
-2.	A Treasurer tab will be created in the menu
-3.	Last Month / Current month / Custom month will create an expense sheet for that particular month
-4.	Auto update will setup a trigger to create an expense sheet of last month on 1st of every month
-5.	Please verify the expense sheet once created since the script may misbehave if formatting of these email messages changes in future
 	
 ## WHY TO USE
 1.	Get all your online expenses from UPI apps | Wallets | Credit/Debit Cards at a single place for easy budgeting
