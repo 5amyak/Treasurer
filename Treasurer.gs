@@ -14,10 +14,10 @@ function main_(month, year) {
     addExpenses_(month, year);
 
     console.log('Successfully created expense report for date :: %s/%s', month, year);
-    SpreadsheetApp.getUi().alert('Expenses updated successfully');
+    activeSpreadsheet.toast('Expenses updated successfully')
   } catch(e) {
     console.error('Failed in creating expense report due to ', e.stack);
-    SpreadsheetApp.getUi().alert('Some error occured. Please try again later');
+    activeSpreadsheet.toast('Some error occured. Please try again later');
   }
 }
 
@@ -32,6 +32,7 @@ function addExpenses_(month, year) {
     appendExpenses_(expensesSheet, metaDataValues[i], month, year);
   }
   expensesSheet.sort(EXPENSE_COLUMNS.MsgId);
+  expensesSheet.showSheet();
 }
 
 function enableAutoUpdate_() {
