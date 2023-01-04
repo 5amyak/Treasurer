@@ -31,7 +31,6 @@ function addExpenses_(month, year) {
   for (let i = 1; i < metaDataValues.length; i++) {
     appendExpenses_(expensesSheet, metaDataValues[i], month, year);
   }
-  expensesSheet.sort(EXPENSE_COLUMNS.MsgId);
   expensesSheet.showSheet();
 }
 

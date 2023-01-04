@@ -26,7 +26,7 @@ function scrapeData_(msg, metaDataRow) {
   const msgDate = msg.getDate();
   const msgSubject = msg.getSubject().trim();
   const msgBody = msg.getPlainBody().trim();
-  const msgText = msgSubject.concat(DELIM).concat(msgBody).toLowerCase().replace(/,/g, '').trim();
+  const msgText = msgSubject.concat(DELIM).concat(msgBody).toLowerCase().replace(/,/g, '').replaceAll('\n', ' ').trim();
   
   const txnFrom = metaDataRow[METADATA_COLUMNS.Name].trim();
   const txnWith = getTxnWith_(msgText, metaDataRow[METADATA_COLUMNS.TxnWithRegex]);
@@ -43,7 +43,7 @@ function getTxnWith_(msgText, regExpStr) {
     txnWithText = txnWithText.substring(txnWithText.indexOf(TXN_WITH_REGEX)).trim();
   }
   
-  if (txnWithText === '' || txnWithText.split(' ').length > 4) 
+  if (txnWithText === '' || txnWithText.split(' ').filter(s => !(s.trim() === '')).length > 5) 
     txnWithText = msgText.substring(0, msgText.indexOf(DELIM)).trim();
   console.log('Found txn with text :: "%s" after using regex :: "%s"', txnWithText, regExpStr);
   return toTitleCase_(txnWithText);
