@@ -31,8 +31,8 @@ function scrapeData_(msg, metaDataRow) {
   const txnFrom = metaDataRow[METADATA_COLUMNS.Name].trim();
   const txnWith = getTxnWith_(msgText, metaDataRow[METADATA_COLUMNS.TxnWithRegex]);
   const txnAmount = getTxnAmount_(msgText, TXN_AMOUNT_INITIAL_REGEX);
-  if (txnAmount && isDebitTxn_(msgText)) return [msgDate, msgId, txnFrom, txnWith, txnAmount, ];
-  else if (txnAmount && isCreditTxn_(msgText)) return [msgDate, msgId, txnFrom, txnWith, , txnAmount]; 
+  if (txnAmount && isCreditTxn_(msgText)) return [msgDate, msgId, txnFrom, txnWith, , txnAmount];
+  else if (txnAmount) return [msgDate, msgId, txnFrom, txnWith, txnAmount, ];
   else return null;
 }
 

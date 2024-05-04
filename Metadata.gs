@@ -1,7 +1,6 @@
 const METADATA_SHEET_NAME = 'Metadata';
 
 let creditKeywords = [];
-let debitKeywords = [];
 
 function getMetadataSheet_() {
   let metadataSheet = activeSpreadsheet.getSheetByName(METADATA_SHEET_NAME);
@@ -14,19 +13,6 @@ function getMetadataSheet_() {
 
 function initializeKeywords_(metaData) {
   creditKeywords = creditKeywords.concat(getColValuesByName_('Credit Keywords', metaData));
-  debitKeywords = debitKeywords.concat(getColValuesByName_('Debit Keywords', metaData));
-}
-
-function isDebitTxn_(text) {
-  for (let debitKeyword of debitKeywords) {
-    let debitRegex = new RegExp('\\s' + debitKeyword.toLowerCase().trim() + '\\s');
-    if (text.search(debitRegex) != -1) {
-      console.log('Found a debit keyword :: %s', debitKeyword);
-      return true;
-    }
-  }
-  
-  return false;
 }
 
 function isCreditTxn_(text) {

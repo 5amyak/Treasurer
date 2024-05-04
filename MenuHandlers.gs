@@ -1,4 +1,4 @@
-function lastMonthTreasurer() {
+function prevMonthTreasurer() {
   let d = new Date();
   d.setMonth(d.getMonth() - 1);
   main_(d.getMonth() + 1, d.getFullYear());
